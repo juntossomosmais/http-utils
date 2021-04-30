@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  http-utils:
+    container_name: http-utils
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/home/docker
+    ports:
+      - 5000:5000
