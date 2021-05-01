@@ -141,3 +141,5 @@ cython_debug/
 .local
 .idea
 .vscode
+junit
+.tox
