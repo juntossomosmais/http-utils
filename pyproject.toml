@@ -9,10 +9,66 @@ python = "^3.9"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
-coverage = "^5.5"
 pytest-cov = "^2.11.1"
+httpretty = "^1.0.5"
+black = "^21.4b2"
+isort = "^5.8.0"
+autoflake = "^1.4"
+flake8 = "^3.9.1"
+tox = "^3.23.0"
 
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist = True
+envlist = py39,py38,py37,py36
+
+[testenv]
+passenv = *
+deps = poetry
+commands =
+    poetry install --no-root
+    pytest tests -vv --cov-append --doctest-modules --cov=. --junitxml=junit/test-results.xml --cov-report=xml  --cov-report=term --cov-report=html
+"""
+
+[tool.isort]
+force_single_line = true
+ensure_newline_before_comments = true
+line_length = 120
+skip_glob = ["**/migrations/*.py"]
+use_parentheses = true
+multi_line_output = 3
+include_trailing_comma = true
+lines_between_types = 1
+known_django = "django"
+known_mirny = "mirny"
+known_third_party = ["urllib3", "rest_framework", "request_id_django_log", "pytest"]
+sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER", "MIRNY"]
+
+[tool.black]
+line-length = 120
+target_version = ["py38"]
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs
+    | \.git
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | migrations
+    | settings.py
+  )/
+)
+'''

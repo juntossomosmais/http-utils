@@ -10,3 +10,11 @@ services:
       - .:/home/docker
     ports:
       - 5000:5000
+
+  tests:
+    container_name: http-utils-test
+    image: abxsantos/multitox
+    working_dir: /app
+    volumes:
+      - .:/app
+    command: ["./scripts/start-tests.sh"]
