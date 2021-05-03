@@ -1,13 +1,13 @@
-# Django Stomp
+# Http Utils
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
-[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/juntossomosmais/django-stomp/blob/master/LICENSE)
+[![GitHub](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/juntossomosmais/http-utils/blob/master/LICENSE)
 
 A simple requests session wrapper.
 
 ## Installation
 
-`pip install pip install git+git://github.com/juntossomosmais/http-utils.git#egg=http-utils`
+`pip install pip install git+git://github.com/juntossomosmais/http-utils.git`
 
 ## Configuration process
 
