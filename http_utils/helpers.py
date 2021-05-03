@@ -1,37 +1,35 @@
 """
-Helper module for the main HTTP utils
+Helpers module for handling HTTP Response and Header objects.
 """
-import logging
-from typing import Any, List, Optional
+from typing import Optional, Dict
 
 from requests import Response
 
 
-def log_response(response: Response, *args: Any, **kwargs: Any) -> None:
+def convert_header_to_meta_key(header: Optional[str]) -> Optional[str]:
     """
-    Logs the obtained response.
+    Django Http Request has a dictionary called META with the request_session headers.
+    But it replace the header name following the rules:
+      - all characters to uppercase
+      - replacing any hyphens with underscores
+      - adding an HTTP_ prefix to the name.
+    So, for example, a header called X-Bender would be mapped to the META key HTTP_X_BENDER.
     """
-    logging.debug(
-        "Request to %s returned status code %d", response.url, response.status_code
-    )
+    if header is None:
+        return None
+
+    return f"HTTP_{header.replace('-', '_')}".upper()
 
 
-def check_for_errors(
-    response: Response,
-    allowed_http_error_status_list: Optional[List[int]] = None,
-    *args: Any,
-    **kwargs: Any,
-) -> None:
+def get_response_body(response: Response) -> Dict:
     """
-    Raises a [HTTPError] based on response status that are greater than or equal 400.
+    Deserialize the response returning a deserialized json dict or a text.
 
-    :param: 'allowed_http_error_status' is a list of status codes that can be provided
-    to not raise a [HTTPError]
+    :param response:
+        Response object from `requests` module.
     """
-    allowed_http_error_status_list = (
-        allowed_http_error_status_list
-        if isinstance(allowed_http_error_status_list, list)
-        else []
-    )
-    if all(status >= 400 for status in allowed_http_error_status_list):
-        response.raise_for_status()
+    try:
+        response_body = response.json()
+    except ValueError:
+        response_body = response.text
+    return response_body

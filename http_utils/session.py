@@ -1,71 +1,66 @@
 """
-HTTP utils module
+Main HTTP session module
 """
 import functools
-from contextlib import contextmanager
-from typing import Any, Dict, Generator, List, Optional
 
-from requests import Response, Session
+from contextlib import contextmanager
+from typing import Any
+from typing import FrozenSet
+from typing import Generator
+from typing import List
+from typing import Optional
+from typing import Tuple
+from typing import Union
+
+from requests import Session
 from requests.adapters import HTTPAdapter
 from urllib3 import Retry
 
-from http_utils.helpers import check_for_errors, log_response
+from http_utils.hooks import check_for_errors
+from http_utils.hooks import log_response
+from http_utils.settings import HTTP_BACKOFF_FACTOR
+from http_utils.settings import HTTP_RETRIES
+from http_utils.settings import HTTP_STATUS_FORCELIST
+from http_utils.settings import HTTP_TIMEOUT
 
 
 @contextmanager
-def request(
-    total: int = 3,
-    backoff_factor: float = 0.1,
+def request_session(
     allowed_http_error_status_list: Optional[List[int]] = None,
+    total: int = HTTP_RETRIES,
+    backoff_factor: float = HTTP_BACKOFF_FACTOR,
+    status_forcelist: Optional[Tuple] = HTTP_STATUS_FORCELIST,
+    allowed_methods: Union[FrozenSet] = Retry.DEFAULT_ALLOWED_METHODS,
     **kwargs: Any,
 ) -> Generator[Session, None, None]:
     """
     Generate a requests session that allows retries and raises HTTP errors (status code >= 400).
     Uses the same arguments as the class Retry from urllib3
     """
+    # creates new requests session
+    session = Session()
+    # Adds the [allowed_http_error_status_list] to the check for errors hook.
     functools.partial(
         check_for_errors,
-        allowed_http_error_status_list=(
-            allowed_http_error_status_list
-            if allowed_http_error_status_list
-            else None
-        ),
+        allowed_http_error_status_list=allowed_http_error_status_list,
     )
-    session = Session()
+    session.request = functools.partial(session.request, timeout=HTTP_TIMEOUT)
     session.hooks.update(response=[log_response, check_for_errors])
 
-    adapter = HTTPAdapter(max_retries=Retry(total=total, backoff_factor=backoff_factor, **kwargs))
+    adapter = HTTPAdapter(
+        max_retries=Retry(
+            total=total,
+            backoff_factor=backoff_factor,
+            method_whitelist=allowed_methods,
+            status_forcelist=status_forcelist,
+            **kwargs,
+        )
+    )
 
     session.mount("https://", adapter)
     session.mount("http://", adapter)
-    session.request = functools.partial(session.request, timeout=float(30))  # Seconds
+
     try:
         yield session
     finally:
         session.close()
-
-
-def get_response_body(response: Response) -> Dict:
-    """
-    Deserialize the response.
-    """
-    try:
-        response_body = response.json()
-    except ValueError:
-        response_body = response.text
-    return response_body
-
-
-def convert_header_to_meta_key(header: Optional[str]) -> Optional[str]:
-    """
-    Django Http Request has a dictionary called META with the request headers.
-    But it replace the header name following the rules:
-      - all characters to uppercase
-      - replacing any hyphens with underscores
-      - adding an HTTP_ prefix to the name.
-    So, for example, a header called X-Bender would be mapped to the META key HTTP_X_BENDER.
-    """
-    if header is None:
-        return None
-
-    return f"HTTP_{header.replace('-', '_')}".upper()

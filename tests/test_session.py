@@ -4,7 +4,7 @@ import httpretty as httpretty
 import pytest
 from requests import HTTPError
 
-from http_utils.session import request
+from http_utils.session import request_session
 
 
 class TestRequestSession:
@@ -21,8 +21,8 @@ class TestRequestSession:
             status=param_status_code,
         )
         with pytest.raises(HTTPError):
-            with request() as request_session:
-                request_session.get(url=self.fake_uri)
+            with request_session() as request:
+                request.get(url=self.fake_uri)
 
     @httpretty.activate
     @pytest.mark.parametrize(
@@ -38,7 +38,7 @@ class TestRequestSession:
             status=param_status_code,
         )
         with pytest.raises(HTTPError):
-            with request(
+            with request_session(
                 allowed_http_error_status_list=param_status_to_not_raise
-            ) as request_session:
-                request_session.get(url=self.fake_uri)
+            ) as request:
+                request.get(url=self.fake_uri)
