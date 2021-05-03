@@ -57,7 +57,7 @@ def request_session(
         max_retries=Retry(
             total=total,
             backoff_factor=backoff_factor,
-            method_whitelist=allowed_methods,
+            allowed_methods=allowed_methods,
             status_forcelist=status_forcelist,
             **kwargs,
         )
