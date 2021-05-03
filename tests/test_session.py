@@ -2,18 +2,17 @@ from typing import List
 
 import httpretty as httpretty
 import pytest
+
 from requests import HTTPError
 
 from http_utils.session import request_session
 
 
-class TestRequestSession:
+class TestAllowedHttpErrorStatusList:
     fake_uri = "https://www.baNanNa.com.br"
 
     @httpretty.activate
-    @pytest.mark.parametrize(
-        argnames="param_status_code", argvalues=[400, 401, 403, 404, 499, 500, 503, 599]
-    )
+    @pytest.mark.parametrize(argnames="param_status_code", argvalues=[400, 401, 403, 404, 499, 500, 503, 599])
     def test_session_must_raise_on_error(self, param_status_code: int):
         httpretty.register_uri(
             httpretty.GET,
@@ -38,7 +37,5 @@ class TestRequestSession:
             status=param_status_code,
         )
         with pytest.raises(HTTPError):
-            with request_session(
-                allowed_http_error_status_list=param_status_to_not_raise
-            ) as request:
+            with request_session(allowed_http_error_status_list=param_status_to_not_raise) as request:
                 request.get(url=self.fake_uri)
