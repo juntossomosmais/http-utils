@@ -2,7 +2,11 @@
 name = "http-utils"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Juntos Somos Mais <labs@juntossomosmais.com.br>"]
+maintainers = ["Juntos Somos Mais <labs@juntossomosmais.com.br>"]
+readme = "README.md"
+homepage = "https://juntossomosmais.com.br"
+repository = "https://github.com/juntossomosmais/mirny"
 
 [tool.poetry.dependencies]
 python = "^3.9"
