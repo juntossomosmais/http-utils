@@ -30,9 +30,6 @@ RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Applies the container user to be non-root
-USER docker
-
 WORKDIR /home/docker
 
 # Sets the binaries to path
