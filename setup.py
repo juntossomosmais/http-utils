@@ -12,7 +12,7 @@ install_requires = \
 
 setup_kwargs = {
     'name': 'http-utils',
-    'version': '0.1.0',
+    'version': '0.1.1',
     'description': '',
     'long_description': None,
     'author': 'Your Name',
