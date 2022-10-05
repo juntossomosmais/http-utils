@@ -10,6 +10,8 @@ ENV SHELL /bin/bash
 # Creates a non-root user
 RUN adduser --disabled-password docker
 
+RUN apt-get update
+
 # Upgrades pip
 RUN pip install --upgrade pip
 

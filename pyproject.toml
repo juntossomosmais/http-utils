@@ -35,9 +35,11 @@ skipsdist = True
 envlist = py39,py38,py37,py36
 
 [testenv]
+download = true
 passenv = *
-deps = poetry
 commands =
+    python -m pip install --upgrade pip
+    pip install poetry
     poetry install --no-root
     pytest tests -vv --cov-append --doctest-modules --cov=. --junitxml=junit/test-results.xml --cov-report=xml  --cov-report=term --cov-report=html
 """
