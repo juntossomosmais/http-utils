@@ -13,7 +13,7 @@ services:
 
   tests:
     container_name: http-utils-test
-    image: abxsantos/multitox
+    image: lucaslima18/multitox
     working_dir: /app
     volumes:
       - .:/app
