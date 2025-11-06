@@ -1,0 +1,36 @@
+FROM alpine:latest
+
+LABEL maintainer="Lucas Amorim (Kakaroto) <lucas.ala1999@gmail.com>"
+
+ENV LANG=en_US.UTF-8
+ENV PYENV_ROOT=/.pyenv
+ENV PATH=/.pyenv/bin:/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+RUN apk add --no-cache \
+    bash \
+    git \
+    curl \
+    build-base \
+    libffi-dev \
+    openssl-dev \
+    bzip2-dev \
+    zlib-dev \
+    readline-dev \
+    sqlite-dev \
+    tk-dev \
+    xz-dev
+
+RUN curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+
+RUN eval "$(/.pyenv/bin/pyenv init -)" && \
+    pyenv install 3.10.13 && \
+    pyenv install 3.11.7 && \
+    pyenv install 3.12.1 && \
+    pyenv install 3.13.0 && \
+    pyenv global 3.13.0 3.12.1 3.11.7 3.10.13 && \
+    pyenv rehash && \
+    pip install tox virtualenv
+
+WORKDIR /app
+
+CMD ["/bin/bash"]
