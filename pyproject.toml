@@ -9,9 +9,9 @@ homepage = "https://juntossomosmais.com.br"
 repository = "https://github.com/juntossomosmais/mirny"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = ">=3.10,<4.0"
 requests = "^2"
-urllib3 = "^1"
+urllib3 = "^2.2.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2.3"
@@ -28,7 +28,7 @@ build-backend = "poetry.core.masonry.api"
 legacy_tox_ini = """
 [tox]
 skipsdist = True
-envlist = py39,py38,py37
+envlist = py310,py311,py312,py313
 
 [testenv]
 download = true

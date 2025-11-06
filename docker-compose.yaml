@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   http-utils:
     container_name: http-utils
@@ -12,8 +10,10 @@ services:
       - 5000:5000
 
   tests:
+    build:
+      context: tox/
+      dockerfile: Dockerfile
     container_name: http-utils-test
-    image: abxsantos/multitox
     working_dir: /app
     volumes:
       - .:/app
