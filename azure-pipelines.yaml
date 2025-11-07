@@ -1,0 +1,27 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - http_utils
+      - tests
+      - tox
+      - Dockerfile
+      - poetry.lock
+pr:
+  - main
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      name: juntossomosmais/azure-pipelines-templates
+      endpoint: github.com
+      ref: main
+
+extends:
+  # The key "@templates" is referencing the repository above! Look at resources entry.
+  template: python/backend.yaml@templates
+  parameters:
+    AppEnvironmentNamePrefixAzureDevOps: "http-utils"
