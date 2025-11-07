@@ -7,6 +7,17 @@ from requests import HTTPError
 from http_utils.hooks import check_for_errors
 
 
+def mocked_response_with_status(status_code: int) -> MagicMock:
+    def _raise_for_status(*_, **__) -> None:
+        raise HTTPError(f"HTTP Error with status code {status_code}")
+
+    mocked_response = MagicMock()
+    mocked_response.status_code = status_code
+    mocked_response.ok = status_code < 400
+    mocked_response.raise_for_status = _raise_for_status
+    return mocked_response
+
+
 class TestCheckForErrors:
     @pytest.mark.parametrize(
         argnames="param_status_code_to_raise",
@@ -16,8 +27,7 @@ class TestCheckForErrors:
         self,
         param_status_code_to_raise: int,
     ):
-        mocked_response = MagicMock()
-        mocked_response.status_code = param_status_code_to_raise
+        mocked_response = mocked_response_with_status(status_code=param_status_code_to_raise)
         with pytest.raises(HTTPError):
             check_for_errors(response=mocked_response)
 

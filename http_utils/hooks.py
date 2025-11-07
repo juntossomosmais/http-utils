@@ -26,10 +26,12 @@ def check_for_errors(
     :param allowed_http_error_status_list:
         List of status codes that can be provided to not raise a [HTTPError].
     """
-    allowed_http_error_status_list = (
-        allowed_http_error_status_list if isinstance(allowed_http_error_status_list, list) else []
-    )
-    if all(status >= 400 for status in allowed_http_error_status_list):
+    allowed_http_error_status_list = allowed_http_error_status_list or []
+
+    if not isinstance(allowed_http_error_status_list, (list, set)):
+        raise TypeError("allowed_http_error_status_list must be a list or a set of integers.")
+
+    if not response.ok and response.status_code not in allowed_http_error_status_list:
         response.raise_for_status()
 
 
