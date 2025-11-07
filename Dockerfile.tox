@@ -1,7 +1,5 @@
 FROM alpine:latest
 
-LABEL maintainer="Lucas Amorim (Kakaroto) <lucas.ala1999@gmail.com>"
-
 ENV LANG=en_US.UTF-8
 ENV PYENV_ROOT=/.pyenv
 ENV PATH=/.pyenv/bin:/.pyenv/shims:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

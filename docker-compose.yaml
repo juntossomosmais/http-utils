@@ -1,20 +1,31 @@
+# https://docs.docker.com/compose/compose-file/compose-file-v3/#extension-fields
+x-build: &dockerfile-dev-build
+  context: .
+  dockerfile: Dockerfile
+
 services:
   http-utils:
     container_name: http-utils
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: *dockerfile-dev-build
     volumes:
       - .:/home/docker
     ports:
       - 5000:5000
 
-  tests:
+  integration-tests:
     build:
-      context: tox/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: Dockerfile.tox
     container_name: http-utils-test
     working_dir: /app
     volumes:
       - .:/app
     command: ["./scripts/start-tests.sh"]
+
+  lint-formatter:
+    build: *dockerfile-dev-build
+    volumes:
+      - .:/app
+    command: ["./scripts/start-formatter-lint.sh"]
+    networks:
+      - bailong_network
