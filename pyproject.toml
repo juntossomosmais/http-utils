@@ -1,12 +1,26 @@
 [tool.poetry]
 name = "http-utils"
 version = "0.1.4"
-description = ""
+description = "Utils for HTTP requests using the requests library"
 authors = ["Juntos Somos Mais <labs@juntossomosmais.com.br>"]
 maintainers = ["Juntos Somos Mais <labs@juntossomosmais.com.br>"]
+license = "MIT"
 readme = "README.md"
 homepage = "https://juntossomosmais.com.br"
-repository = "https://github.com/juntossomosmais/mirny"
+repository = "https://github.com/juntossomosmais/http-utils"
+packages = [{ include = "http_utils" }]
+classifiers = [
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Environment :: Web Environment",
+  "Natural Language :: Portuguese (Brazilian)",
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
@@ -14,6 +28,11 @@ requests = ">=2"
 urllib3 = ">=2.2.3"
 
 [tool.poetry.group.dev.dependencies]
+### Pytest
+pytest = "*"
+pytest-mock = "*"
+pytest-cov = "*"
+pytest-xdist = "*"
 ### Format, lint, static type checker, among others
 pre-commit = "*"
 #### Helpers and so on
@@ -46,36 +65,8 @@ commands =
     pytest tests -vv --cov-append --doctest-modules --cov=. --junitxml=junit/test-results.xml --cov-report=xml  --cov-report=term --cov-report=html
 """
 
-[tool.isort]
-force_single_line = true
-ensure_newline_before_comments = true
-line_length = 120
-skip_glob = ["**/migrations/*.py"]
-use_parentheses = true
-multi_line_output = 3
-include_trailing_comma = true
-lines_between_types = 1
-known_django = "django"
-known_mirny = "mirny"
-known_third_party = [
-  "urllib3",
-  "rest_framework",
-  "request_id_django_log",
-  "pytest",
-]
-sections = [
-  "FUTURE",
-  "STDLIB",
-  "DJANGO",
-  "THIRDPARTY",
-  "FIRSTPARTY",
-  "LOCALFOLDER",
-  "MIRNY",
-]
-
 [tool.black]
 line-length = 120
-target_version = ["py38"]
 include = '\.pyi?$'
 exclude = '''
 (
@@ -90,8 +81,58 @@ exclude = '''
     | buck-out
     | build
     | dist
-    | migrations
-    | settings.py
   )/
 )
 '''
+
+[tool.isort]
+force_single_line = true
+line_length = 120
+py_version = 312
+use_parentheses = true
+multi_line_output = 3
+include_trailing_comma = true
+lines_between_types = 1
+sections = [
+  "FUTURE",
+  "STDLIB",
+  "DJANGO",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER",
+]
+
+[tool.mypy]
+python_version = "3.13"
+
+# flake8-mypy expects the two following for sensible formatting
+show_column_numbers = true
+show_error_context = false
+
+# do not follow imports (except for ones found in typeshed)
+follow_imports = "skip"
+
+# suppress errors about unsatisfied imports
+ignore_missing_imports = true
+
+# allow untyped calls as a consequence of the options above
+disallow_untyped_calls = false
+
+# allow returning Any as a consequence of the options above
+warn_return_any = false
+
+# treat Optional per PEP 484
+strict_optional = true
+
+# ensure all execution paths are returning
+warn_no_return = true
+
+# lint-style cleanliness for typing needs to be disabled; returns more errors
+# than the full run.
+warn_redundant_casts = false
+warn_unused_ignores = false
+
+# The following are off by default since they're too noisy.
+# Flip them on if you feel adventurous.
+disallow_untyped_defs = false
+check_untyped_defs = true

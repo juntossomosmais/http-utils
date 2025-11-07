@@ -1,6 +1,7 @@
 from unittest.mock import MagicMock
 
-from http_utils.helpers import convert_header_to_meta_key, get_response_body
+from http_utils.helpers import convert_header_to_meta_key
+from http_utils.helpers import get_response_body
 
 
 class TestGetResponseBody:

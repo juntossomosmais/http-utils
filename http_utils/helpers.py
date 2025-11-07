@@ -1,7 +1,9 @@
 """
 Helpers module for handling HTTP Response and Header objects.
 """
-from typing import Optional, Dict
+
+from typing import Dict
+from typing import Optional
 
 from requests import Response
 

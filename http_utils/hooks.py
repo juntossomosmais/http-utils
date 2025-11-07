@@ -1,6 +1,7 @@
 """
 Hooks module for the main HTTP session.
 """
+
 import logging
 
 from typing import Any

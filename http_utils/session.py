@@ -1,16 +1,16 @@
 """
 Main HTTP session module
 """
+
 import functools
 
 from contextlib import contextmanager
+from http import HTTPStatus
 from typing import Any
 from typing import Callable
 from typing import FrozenSet
 from typing import Generator
-from typing import List
-from typing import Optional
-from typing import Tuple
+from typing import Iterable
 from typing import Union
 
 from requests import Session
@@ -27,12 +27,12 @@ from http_utils.settings import HTTP_TIMEOUT
 
 @contextmanager
 def request_session(
-    allowed_http_error_status_list: Optional[List[int]] = None,
+    allowed_http_error_status_list: list[int] | None = None,
     total: int = HTTP_RETRIES,
     backoff_factor: float = HTTP_BACKOFF_FACTOR,
-    status_forcelist: Optional[Tuple] = HTTP_STATUS_FORCELIST,
+    status_forcelist: Iterable[int | str | HTTPStatus] = HTTP_STATUS_FORCELIST,
     allowed_methods: Union[FrozenSet] = Retry.DEFAULT_ALLOWED_METHODS,
-    hooks: Optional[List[Callable]] = None,
+    hooks: list[Callable] | None = None,
     **kwargs: Any,
 ) -> Generator[Session, None, None]:
     """
@@ -41,7 +41,7 @@ def request_session(
     """
 
     session = Session()
-    session.request = functools.partial(session.request, timeout=HTTP_TIMEOUT)
+    session.request = functools.partial(session.request, timeout=HTTP_TIMEOUT)  # type: ignore[method-assign]
 
     # Adds the default log_response hook if no hooks are provided.
     if hooks is None:
