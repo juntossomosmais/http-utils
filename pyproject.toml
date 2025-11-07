@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "http-utils"
-version = "0.1.4"
+version = "0.1.5"
 description = "Utils for HTTP requests using the requests library"
 authors = ["Juntos Somos Mais <labs@juntossomosmais.com.br>"]
 maintainers = ["Juntos Somos Mais <labs@juntossomosmais.com.br>"]
