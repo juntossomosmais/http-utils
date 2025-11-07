@@ -22,6 +22,4 @@ resources:
 
 extends:
   # The key "@templates" is referencing the repository above! Look at resources entry.
-  template: python/backend.yaml@templates
-  parameters:
-    AppEnvironmentNamePrefixAzureDevOps: "http-utils"
+  template: python/library.yaml@templates
