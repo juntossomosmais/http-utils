@@ -24,8 +24,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-requests = ">=2"
-urllib3 = ">=2.2.3"
+requests = "^2"
+urllib3 = "^2"
 
 [tool.poetry.group.dev.dependencies]
 ### Pytest
@@ -37,12 +37,9 @@ pytest-xdist = "*"
 pre-commit = "*"
 #### Helpers and so on
 httpretty = "*"
-coverage = "*"
-tblib = "*"
 # Typing tools and stubs
 mypy = "*"
 types-requests = "*"
-tox = "*"
 
 
 [build-system]
