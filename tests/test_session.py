@@ -1,5 +1,3 @@
-from typing import List
-
 import httpretty as httpretty
 import pytest
 
@@ -29,7 +27,7 @@ class TestAllowedHttpErrorStatusList:
         argvalues=[(400, [400]), (401, [401, 500])],
     )
     def test_session_must_not_raise_when_returned_status_code_is_marked_to_not_raise(
-        self, param_status_code: int, param_status_to_not_raise: List[int]
+        self, param_status_code: int, param_status_to_not_raise: list[int]
     ):
         httpretty.register_uri(
             httpretty.GET,

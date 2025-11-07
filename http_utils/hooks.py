@@ -5,15 +5,13 @@ Hooks module for the main HTTP session.
 import logging
 
 from typing import Any
-from typing import List
-from typing import Optional
 
 from requests import Response
 
 
 def check_for_errors(
     response: Response,
-    allowed_http_error_status_list: Optional[List[int]] = None,
+    allowed_http_error_status_list: list[int] | None = None,
     *args: Any,
     **kwargs: Any,
 ) -> None:

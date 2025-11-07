@@ -1,4 +1,3 @@
-from typing import List
 from unittest.mock import MagicMock
 
 import pytest
@@ -29,7 +28,7 @@ class TestCheckForErrors:
     def test_check_for_errors_must_not_raise_on_status_greater_than_or_equal_to_400(
         self,
         param_response_status_code: int,
-        param_status_codes_to_not_raise: List[int],
+        param_status_codes_to_not_raise: list[int],
     ):
         mocked_response = MagicMock()
         mocked_response.status_code = param_response_status_code

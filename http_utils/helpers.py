@@ -2,13 +2,10 @@
 Helpers module for handling HTTP Response and Header objects.
 """
 
-from typing import Dict
-from typing import Optional
-
 from requests import Response
 
 
-def convert_header_to_meta_key(header: Optional[str]) -> Optional[str]:
+def convert_header_to_meta_key(header: str | None) -> str | None:
     """
     Django Http Request has a dictionary called META with the request_session headers.
     But it replace the header name following the rules:
@@ -23,7 +20,7 @@ def convert_header_to_meta_key(header: Optional[str]) -> Optional[str]:
     return f"HTTP_{header.replace('-', '_')}".upper()
 
 
-def get_response_body(response: Response) -> Dict:
+def get_response_body(response: Response) -> dict:
     """
     Deserialize the response returning a deserialized json dict or a text.
 
