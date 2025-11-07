@@ -1,4 +1,4 @@
-import httpretty as httpretty
+import httpretty
 import pytest
 
 from requests import HTTPError

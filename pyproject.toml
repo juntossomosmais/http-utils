@@ -36,7 +36,7 @@ pytest-xdist = "*"
 ### Format, lint, static type checker, among others
 pre-commit = "*"
 #### Helpers and so on
-requests-mock = "*"
+httpretty = "*"
 coverage = "*"
 tblib = "*"
 # Typing tools and stubs

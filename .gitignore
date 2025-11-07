@@ -1,5 +1,6 @@
 ### Python template
 .DS_Store
+tests-reports
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

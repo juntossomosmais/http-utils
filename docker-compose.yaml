@@ -13,19 +13,15 @@ services:
       - 5000:5000
 
   integration-tests:
-    build:
-      context: .
-      dockerfile: Dockerfile.tox
+    build: *dockerfile-dev-build
     container_name: http-utils-test
     working_dir: /app
     volumes:
       - .:/app
-    command: ["./scripts/start-tests.sh"]
+    command: [ "./scripts/start-tests.sh" ]
 
   lint-formatter:
     build: *dockerfile-dev-build
     volumes:
       - .:/app
-    command: ["./scripts/start-formatter-lint.sh"]
-    networks:
-      - bailong_network
+    command: [ "./scripts/start-formatter-lint.sh" ]
