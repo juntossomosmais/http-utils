@@ -1,0 +1,16 @@
+name: "Pull Request Validation"
+
+permissions:
+    contents: read
+    pull-requests: write
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened, edited, labeled, unlabeled]
+        branches: [main, develop, release/**]
+
+jobs:
+    pr-validation:
+        uses: juntossomosmais/github-reusable-workflows/.github/workflows/evaluate-pr-best-practices.yaml@main
+        secrets:
+            ROBOT_PAT: ${{ secrets.ROBOT_PAT_REUSABLE_WORKFLOWS }}

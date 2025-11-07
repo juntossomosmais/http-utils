@@ -1,0 +1,20 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    labels:
+      - "[type] project maintenance"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "08:00"
+      day: "sunday"
+    target-branch: "develop"
+  - package-ecosystem: "docker"
+    labels:
+      - "[type] project maintenance"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+      time: "08:00"
+      day: "sunday"
+    target-branch: "develop"
