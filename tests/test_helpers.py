@@ -8,6 +8,12 @@ class TestGetResponseBody:
     def test_must_parse_response_as_json(self):
         assert get_response_body(response=MagicMock())
 
+    def test_must_parse_response_as_text_when_json_fails(self):
+        mocked_response = MagicMock()
+        mocked_response.json.side_effect = ValueError
+        mocked_response.text = "some text response"
+        assert get_response_body(response=mocked_response) == "some text response"
+
 
 class TestConvertHeaderToMetaKey:
     def test_must_return_none_when_no_header_is_provided(self):

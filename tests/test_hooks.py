@@ -19,6 +19,14 @@ def mocked_response_with_status(status_code: int) -> MagicMock:
 
 
 class TestCheckForErrors:
+    def test_should_raise_type_error_when_invalid_allowed_status_list_is_provided(self):
+        mocked_response = mocked_response_with_status(status_code=500)
+        with pytest.raises(TypeError):
+            check_for_errors(
+                response=mocked_response,
+                allowed_http_error_status_list="invalid status list",
+            )
+
     @pytest.mark.parametrize(
         argnames="param_status_code_to_raise",
         argvalues=[400, 401, 403, 404, 499, 500, 501, 599],
