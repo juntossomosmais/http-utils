@@ -10,14 +10,20 @@ repository = "https://github.com/juntossomosmais/mirny"
 
 [tool.poetry.dependencies]
 python = ">=3.10,<4.0"
-requests = "^2"
-urllib3 = "^2.2.3"
+requests = ">=2"
+urllib3 = ">=2.2.3"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^6.2.3"
-pytest-cov = "^2.11.1"
-httpretty = "^1.0.5"
-tox = "^3.23.0"
+### Format, lint, static type checker, among others
+pre-commit = "*"
+#### Helpers and so on
+requests-mock = "*"
+coverage = "*"
+tblib = "*"
+# Typing tools and stubs
+mypy = "*"
+types-requests = "*"
+tox = "*"
 
 
 [build-system]
@@ -51,8 +57,21 @@ include_trailing_comma = true
 lines_between_types = 1
 known_django = "django"
 known_mirny = "mirny"
-known_third_party = ["urllib3", "rest_framework", "request_id_django_log", "pytest"]
-sections = ["FUTURE", "STDLIB", "DJANGO", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER", "MIRNY"]
+known_third_party = [
+  "urllib3",
+  "rest_framework",
+  "request_id_django_log",
+  "pytest",
+]
+sections = [
+  "FUTURE",
+  "STDLIB",
+  "DJANGO",
+  "THIRDPARTY",
+  "FIRSTPARTY",
+  "LOCALFOLDER",
+  "MIRNY",
+]
 
 [tool.black]
 line-length = 120
