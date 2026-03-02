@@ -34,6 +34,5 @@ class TestAllowedHttpErrorStatusList:
             uri=self.fake_uri,
             status=param_status_code,
         )
-        with pytest.raises(HTTPError):
-            with request_session(allowed_http_error_status_list=param_status_to_not_raise) as request:
-                request.get(url=self.fake_uri)
+        with request_session(allowed_http_error_status_list=param_status_to_not_raise) as request:
+            request.get(url=self.fake_uri)

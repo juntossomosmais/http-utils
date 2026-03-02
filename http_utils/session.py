@@ -46,11 +46,11 @@ def request_session(
     if hooks is None:
         hooks = [log_response]
     # Adds the [allowed_http_error_status_list] to the check for errors hook.
-    functools.partial(
+    error_hook = functools.partial(
         check_for_errors,
         allowed_http_error_status_list=allowed_http_error_status_list,
     )
-    session.hooks.update(response=[*hooks, check_for_errors])
+    session.hooks.update(response=[*hooks, error_hook])
 
     adapter = HTTPAdapter(
         max_retries=Retry(
